@@ -7,17 +7,17 @@ import { getTenBooks } from '../redux/features/books/bookSlice';
 import { useAppDispatch } from '../redux/hooks';
 import { IBook } from '../types/globalTypes';
 import BookCard from './BookCard';
+import { useEffect } from 'react';
 
 const Books = () => {
-  const { data } = useGetTenBooksQuery(undefined, {
-    refetchOnMountOrArgChange: true,
-    pollingInterval: 30000,
-  });
+  const { data } = useGetTenBooksQuery(undefined);
   const dispatch = useAppDispatch();
 
-  if (data) {
-    dispatch(getTenBooks(data?.data as IBook[]));
-  }
+  useEffect(() => {
+    if (data) {
+      dispatch(getTenBooks(data?.data as IBook[]));
+    }
+  }, [data, dispatch]);
 
   // console.log(data);
 

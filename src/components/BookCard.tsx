@@ -14,7 +14,7 @@ const BookCard = ({ book }: { book: IBook }) => {
           <p>Genre: {genre}</p>
           <p>PublishYear: {publishYear}</p>
           <div className="card-actions mt-2">
-            <Link to={`/book/${_id}`}>
+            <Link to={`/book-details/${_id}`}>
               <button className="rounded-full border-0 bg-[#DA9323]  px-5 py-2.5 capitalize text-white outline-none transition duration-500 ease-in-out hover:border hover:border-[#DA9323] hover:bg-transparent hover:text-[#DA9323]">
                 View Details
               </button>

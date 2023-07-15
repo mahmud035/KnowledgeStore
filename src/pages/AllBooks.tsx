@@ -10,7 +10,7 @@ import { useGetBooksQuery } from '../redux/features/books/bookApi';
 import { getBooks } from '../redux/features/books/bookSlice';
 import { useAppDispatch } from '../redux/hooks';
 import { IBook } from '../types/globalTypes';
-import { useState, ChangeEvent } from 'react';
+import { useState, ChangeEvent, useEffect } from 'react';
 
 const AllBooks = () => {
   const [searchedBooks, setSearchedBooks] = useState<IBook[]>([]);
@@ -18,15 +18,17 @@ const AllBooks = () => {
 
   const { data: allBooks } = useGetBooksQuery(30, {
     refetchOnMountOrArgChange: true,
-    pollingInterval: 30000,
+    // pollingInterval: 30000,
   });
   // console.log(allBooks);
 
   const dispatch = useAppDispatch();
 
-  if (allBooks) {
-    dispatch(getBooks(allBooks?.data as IBook[]));
-  }
+  useEffect(() => {
+    if (allBooks) {
+      dispatch(getBooks(allBooks?.data as IBook[]));
+    }
+  }, [allBooks, dispatch]);
 
   const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
     console.log(e);

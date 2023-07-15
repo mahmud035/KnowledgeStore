@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
 import { IAddBook } from '../../../components/AddNewBookForm';
 import { api } from '../../api/apiSlice';
 
@@ -10,6 +11,11 @@ export const bookApi = api.injectEndpoints({
 
     getBooks: builder.query({
       query: (limit: number) => `/api/v1/books/?limit=${limit}`,
+      providesTags: ['books'],
+    }),
+
+    getBookDetails: builder.query({
+      query: (id) => `/api/v1/books/${id}`,
       providesTags: ['books'],
     }),
 
@@ -27,5 +33,9 @@ export const bookApi = api.injectEndpoints({
   }),
 });
 
-export const { useGetTenBooksQuery, useGetBooksQuery, usePostBookMutation } =
-  bookApi;
+export const {
+  useGetTenBooksQuery,
+  useGetBooksQuery,
+  usePostBookMutation,
+  useGetBookDetailsQuery,
+} = bookApi;
