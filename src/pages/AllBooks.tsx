@@ -78,7 +78,7 @@ const AllBooks = () => {
       </div>
 
       {/* FIXME: Fix mobile device position (move to center) */}
-      <div className="flex justify-between items-center flex-wrap ">
+      <div className="flex justify-between items-center flex-wrap mb-4">
         <SearchField handleSearch={handleSearch} />
 
         <Dropdown

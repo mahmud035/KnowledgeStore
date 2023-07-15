@@ -21,7 +21,7 @@ const Dropdown = ({
   ];
 
   return (
-    <div className=" flex justify-center items-center">
+    <div className=" flex justify-center items-center ">
       Filter By:
       <div className="dropdown dropdown-hover">
         <label tabIndex={0} className="btn m-1 capitalize">
