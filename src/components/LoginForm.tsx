@@ -1,9 +1,14 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import { useForm } from 'react-hook-form';
-import { toast } from 'react-hot-toast';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useLoginMutation } from '../redux/features/user/userApi';
+import { useAppDispatch } from '../redux/hooks';
+import { setAccessToken, setUserEmail } from '../redux/features/user/userSlice';
+import { toast } from 'react-toastify';
 
 interface LoginFormInputs {
   email: string;
@@ -11,9 +16,16 @@ interface LoginFormInputs {
 }
 
 const LoginForm = () => {
+  // NOTE: Mutation
+  const [login] = useLoginMutation();
+  // NOTE: Dispatch
+  const dispatch = useAppDispatch();
+
   const navigate = useNavigate();
   const location = useLocation();
-  // console.log(location, navigate);
+
+  const from = location.state?.from?.pathname || '/';
+  console.log(from);
 
   const { register, handleSubmit } = useForm<LoginFormInputs>({
     defaultValues: {
@@ -22,24 +34,33 @@ const LoginForm = () => {
     },
   });
 
-  const handleLogin = (data: LoginFormInputs) => {
+  const handleLogin = async (data: LoginFormInputs) => {
     const email = data.email;
     const password = data.password;
     console.log(email, password);
 
-    // if (email.length === 0) {
-    //   toast.error('Provide valid email');
-    //   return;
-    // }
+    const options = {
+      email: email,
+      password: password,
+    };
 
-    // if (password.length < 6) {
-    //   toast.error('Password must be at least 6 characters');
-    //   return;
-    // }
+    //* Call the mutation function
+    await login(options).then((res) => {
+      // console.log(res, 'from login');
+      // console.log(res.data.data.accessToken);
 
-    toast.success('Login successful');
+      if (!res?.data?.success) {
+        toast.error(res?.data?.message);
+        return;
+      }
 
-    navigate('/');
+      dispatch(setAccessToken(res?.data?.data?.accessToken as string));
+
+      dispatch(setUserEmail(email));
+
+      toast.success('Logged in successfully');
+      navigate(from, { replace: true });
+    });
   };
   return (
     <div>
@@ -168,7 +189,7 @@ const LoginForm = () => {
                         type="submit"
                         className="inline-flex items-center justify-center gap-2 rounded-md border border-transparent bg-[#e1a84e] px-4 py-3 text-sm font-semibold text-white transition-all hover:bg-[#da9323] focus:outline-none focus:ring-2 focus:ring-[#e1a84e] focus:ring-offset-2"
                       >
-                        Signup
+                        Login
                       </button>
                     </div>
                   </form>

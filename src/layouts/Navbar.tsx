@@ -1,12 +1,23 @@
 import { useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../redux/hooks';
+import {
+  clearAccessToken,
+  clearUserEmail,
+} from '../redux/features/user/userSlice';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [user, setUser] = useState({});
+  // NOTE: Using Redux Toolkit
+  const { email } = useAppSelector((state) => state.user);
+  const dispatch = useAppDispatch();
+
   const navigate = useNavigate();
 
   const handleLogout = () => {
+    dispatch(clearUserEmail());
+    dispatch(clearAccessToken());
+
     navigate('/login');
   };
 
@@ -43,7 +54,7 @@ const Navbar = () => {
               </NavLink>
             </li>
 
-            {user ? (
+            {email ? (
               <>
                 <li>
                   <NavLink
@@ -179,7 +190,7 @@ const Navbar = () => {
                         </NavLink>
                       </li>
 
-                      {user ? (
+                      {email ? (
                         <>
                           <li>
                             <NavLink

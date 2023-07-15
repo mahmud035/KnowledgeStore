@@ -1,22 +1,17 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import { useForm } from 'react-hook-form';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useSignupMutation } from '../redux/features/user/userApi';
 import { setUserEmail } from '../redux/features/user/userSlice';
 import { useAppDispatch } from '../redux/hooks';
 
 interface LoginFormInputs {
-  data: {
-    email: string;
-    data: {
-      email: string;
-    };
-  };
   email: string;
   password: string;
 }
@@ -29,12 +24,12 @@ const SignUpForm = () => {
     },
   });
 
+  // NOTE: Mutation
   const [signup] = useSignupMutation();
+  // NOTE: Dispatch
   const dispatch = useAppDispatch();
 
   const navigate = useNavigate();
-  const location = useLocation();
-  // console.log(location, navigate);
 
   const handleSignUp = async (data: LoginFormInputs) => {
     const email = data.email;
@@ -51,8 +46,14 @@ const SignUpForm = () => {
       password: password,
     };
 
+    //* Call the mutation function
     await signup(options).then((res) => {
       console.log(res, 'from signup');
+
+      if (!res?.data?.success) {
+        toast.error(res?.data?.message);
+        return;
+      }
 
       dispatch(setUserEmail(email));
 

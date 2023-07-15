@@ -3,10 +3,12 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 
 interface IUser {
   email: string;
+  accessToken: string;
 }
 
 const initialState: IUser = {
   email: localStorage.getItem('userEmail') || '',
+  accessToken: localStorage.getItem('accessToken') || '',
 };
 
 const userSlice = createSlice({
@@ -22,8 +24,24 @@ const userSlice = createSlice({
       state.email = '';
       localStorage.removeItem('userEmail');
     },
+
+    setAccessToken: (state, action: PayloadAction<string>) => {
+      state.accessToken = action.payload;
+      localStorage.setItem('accessToken', action.payload);
+    },
+
+    clearAccessToken: (state) => {
+      state.accessToken = '';
+      localStorage.removeItem('accessToken');
+    },
   },
 });
 
-export const { setUserEmail, clearUserEmail } = userSlice.actions;
+export const {
+  setUserEmail,
+  clearUserEmail,
+  setAccessToken,
+  clearAccessToken,
+} = userSlice.actions;
+
 export default userSlice.reducer;
