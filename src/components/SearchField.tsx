@@ -6,7 +6,7 @@ interface SearchFieldProps {
 
 const SearchField = ({ handleSearch }: SearchFieldProps) => {
   return (
-    <div className=" mb-5 flex max-w-md items-center  justify-end rounded-lg bg-[#f3debd] ">
+    <div className="  lg:w-1/3 mb-5 sm:mb-0 flex  items-center justify-end rounded-lg bg-[#f3debd] ">
       <div className="w-full">
         <input
           onChange={handleSearch}

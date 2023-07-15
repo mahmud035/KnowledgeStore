@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { IBook } from '../types/globalTypes';
 
 const BookCard = ({ book }: { book: IBook }) => {
-  console.log(book);
+  // console.log(book);
   const { _id, title, author, genre, publishYear } = book;
 
   return (
