@@ -1,20 +1,27 @@
+/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import { useForm } from 'react-hook-form';
-import { toast } from 'react-hot-toast';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { useSignupMutation } from '../redux/features/user/userApi';
+import { setUserEmail } from '../redux/features/user/userSlice';
+import { useAppDispatch } from '../redux/hooks';
 
 interface LoginFormInputs {
+  data: {
+    email: string;
+    data: {
+      email: string;
+    };
+  };
   email: string;
   password: string;
 }
 
 const SignUpForm = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
-  console.log(location, navigate);
-
   const { register, handleSubmit } = useForm<LoginFormInputs>({
     defaultValues: {
       email: '',
@@ -22,24 +29,37 @@ const SignUpForm = () => {
     },
   });
 
-  const handleSignUp = (data: LoginFormInputs) => {
+  const [signup] = useSignupMutation();
+  const dispatch = useAppDispatch();
+
+  const navigate = useNavigate();
+  const location = useLocation();
+  // console.log(location, navigate);
+
+  const handleSignUp = async (data: LoginFormInputs) => {
     const email = data.email;
     const password = data.password;
     console.log(email, password);
-
-    if (email.length === 0) {
-      toast.error('Provide valid email');
-      return;
-    }
 
     if (password.length < 6) {
       toast.error('Password must be at least 6 characters');
       return;
     }
 
-    toast.success('Account created successfully. Now login to your account.');
+    const options = {
+      email: email,
+      password: password,
+    };
 
-    navigate('/login');
+    await signup(options).then((res) => {
+      console.log(res, 'from signup');
+
+      dispatch(setUserEmail(email));
+
+      toast.success('Account created successfully. Now login to your account.');
+
+      navigate('/login');
+    });
   };
 
   return (

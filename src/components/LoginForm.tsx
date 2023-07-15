@@ -13,7 +13,7 @@ interface LoginFormInputs {
 const LoginForm = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  console.log(location, navigate);
+  // console.log(location, navigate);
 
   const { register, handleSubmit } = useForm<LoginFormInputs>({
     defaultValues: {
