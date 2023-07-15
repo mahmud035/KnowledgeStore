@@ -7,11 +7,11 @@ export const bookApi = api.injectEndpoints({
       providesTags: ['books'],
     }),
 
-    getAllBooks: builder.query({
-      query: (number: number) => `/api/v1/books?limit=${number}`,
+    getBooks: builder.query({
+      query: (limit: number) => `/api/v1/books/?limit=${limit}`,
       providesTags: ['books'],
     }),
   }),
 });
 
-export const { useGetTenBooksQuery, useGetAllBooksQuery } = bookApi;
+export const { useGetTenBooksQuery, useGetBooksQuery } = bookApi;

@@ -18,12 +18,12 @@ const bookSlice = createSlice({
       state.books = action.payload;
     },
 
-    getAllBooks: (state, action: PayloadAction<IBook[]>) => {
+    getBooks: (state, action: PayloadAction<IBook[]>) => {
       state.books = action.payload;
     },
   },
 });
 
-export const { getTenBooks, getAllBooks } = bookSlice.actions;
+export const { getTenBooks, getBooks } = bookSlice.actions;
 
 export default bookSlice.reducer;

@@ -9,7 +9,7 @@ const BookCard = ({ book }: { book: IBook }) => {
     <>
       <div className="card bg-base-100 shadow-lg">
         <div className="card-body">
-          <h2 className="card-title">{title}</h2>
+          <h2 className="card-title">Title: {title}</h2>
           <p>Author: ${author}</p>
           <p>Genre: {genre}</p>
           <p>PublishYear: {publishYear}</p>

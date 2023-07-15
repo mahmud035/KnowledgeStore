@@ -7,3 +7,10 @@ export interface IBook {
   publishYear: string;
   reviews?: string[];
 }
+
+export interface ISearchAndFilter {
+  searchText?: string | undefined | null;
+  limit?: number | undefined | null;
+  genre?: string | undefined | null;
+  publishYear?: string | undefined | null;
+}
