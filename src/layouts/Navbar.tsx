@@ -83,14 +83,14 @@ const Navbar = () => {
               <>
                 <li>
                   <Link to="/login">
-                    <button className="btn w-32 rounded-full border-0 bg-[#DA9323] capitalize outline-none">
+                    <button className="btn w-32 text-white rounded-full border-0 bg-[#DA9323] capitalize outline-none">
                       Login
                     </button>
                   </Link>
                 </li>
                 <li>
                   <Link to="/signup">
-                    <button className="btn w-32 rounded-full border-0 bg-[#DA9323] capitalize outline-none">
+                    <button className="btn w-32 text-white rounded-full border-0 bg-[#DA9323] capitalize outline-none">
                       Signup
                     </button>
                   </Link>
