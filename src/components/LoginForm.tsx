@@ -1,8 +1,7 @@
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-misused-promises */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { useForm } from 'react-hook-form';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useLoginMutation } from '../redux/features/user/userApi';
@@ -17,7 +16,7 @@ interface LoginFormInputs {
 
 const LoginForm = () => {
   // NOTE: Mutation
-  const [login] = useLoginMutation();
+  const [login, { isLoading }] = useLoginMutation();
   // NOTE: Dispatch
   const dispatch = useAppDispatch();
 
@@ -37,30 +36,40 @@ const LoginForm = () => {
   const handleLogin = async (data: LoginFormInputs) => {
     const email = data.email;
     const password = data.password;
-    console.log(email, password);
+    // console.log(email, password);
 
     const options = {
       email: email,
       password: password,
     };
 
-    //* Call the mutation function
-    await login(options).then((res) => {
-      // console.log(res, 'from login');
-      // console.log(res.data.data.accessToken);
+    // NOTE: Call the mutation function
+    try {
+      const response = await login(options);
 
-      if (!res?.data?.success) {
-        toast.error(res?.data?.message);
+      if ('error' in response) {
+        toast.error('An error occurred. Please try again.');
+        // console.error(response.error);
         return;
       }
 
-      dispatch(setAccessToken(res?.data?.data?.accessToken as string));
+      const res = response.data;
 
+      if (!res.success) {
+        toast.error(res.message);
+        return;
+      }
+
+      // Set userEmail and accessToken to state and localStorage
       dispatch(setUserEmail(email));
+      dispatch(setAccessToken(res.data.accessToken as string));
 
       toast.success('Logged in successfully');
       navigate(from, { replace: true });
-    });
+    } catch (error) {
+      toast.error('An error occurred. Please try again.');
+      // console.error(error);
+    }
   };
   return (
     <div>
@@ -189,7 +198,7 @@ const LoginForm = () => {
                         type="submit"
                         className="inline-flex items-center justify-center gap-2 rounded-md border border-transparent bg-[#e1a84e] px-4 py-3 text-sm font-semibold text-white transition-all hover:bg-[#da9323] focus:outline-none focus:ring-2 focus:ring-[#e1a84e] focus:ring-offset-2"
                       >
-                        Login
+                        {isLoading ? 'Loading' : 'Login'}
                       </button>
                     </div>
                   </form>
