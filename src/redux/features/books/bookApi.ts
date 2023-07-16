@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 import { IAddBook } from '../../../components/AddNewBookForm';
+import { IEditBook } from '../../../components/EditBookForm';
 import { api } from '../../api/apiSlice';
 
 export const bookApi = api.injectEndpoints({
@@ -30,6 +31,18 @@ export const bookApi = api.injectEndpoints({
       }),
       invalidatesTags: ['books'],
     }),
+
+    updateBook: builder.mutation({
+      query: ({ id, data }: { id: string; data: IEditBook }) => ({
+        url: `/api/v1/books/${id}`,
+        method: 'PATCH',
+        body: data,
+        headers: {
+          Authorization: localStorage.getItem('accessToken') as string,
+        },
+      }),
+      // invalidatesTags: ['books'],
+    }),
   }),
 });
 
@@ -38,4 +51,5 @@ export const {
   useGetBooksQuery,
   usePostBookMutation,
   useGetBookDetailsQuery,
+  useUpdateBookMutation,
 } = bookApi;

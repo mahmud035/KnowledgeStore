@@ -11,10 +11,13 @@ import { AiOutlineHeart, AiOutlineRead } from 'react-icons/ai';
 
 const BookDetails = () => {
   const { id } = useParams();
-  const { data: bookData } = useGetBookDetailsQuery(id);
+  const { data: bookData } = useGetBookDetailsQuery(id, {
+    refetchOnMountOrArgChange: true,
+    pollingInterval: 30000,
+  });
   const { email } = useAppSelector((state) => state.user);
 
-  console.log(bookData?.data);
+  // console.log(bookData?.data);
   const {
     _id,
     title,
@@ -57,7 +60,7 @@ const BookDetails = () => {
               {email === savedEmail && (
                 <div className="flex gap-4">
                   <div className="card-actions mt-2">
-                    <Link to={`/book-details/${_id}`}>
+                    <Link to={`/edit-book/${_id}`}>
                       <button className="rounded-full border-0 bg-[#DA9323]  px-5 py-2 capitalize text-white outline-none transition duration-500 ease-in-out hover:border hover:border-[#DA9323] hover:bg-transparent hover:text-[#DA9323]">
                         Edit Book
                       </button>
