@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { api } from '../../api/apiSlice';
 
 export const userApi = api.injectEndpoints({
@@ -17,7 +18,20 @@ export const userApi = api.injectEndpoints({
         body: { email, password },
       }),
     }),
+
+    addToWishlist: builder.mutation({
+      query: (data) => ({
+        url: `/api/v1/users/wishlist/add`,
+        method: 'POST',
+        body: data,
+        headers: {
+          Authorization: localStorage.getItem('accessToken') as string,
+        },
+      }),
+      invalidatesTags: ['books', 'wishlist'],
+    }),
   }),
 });
 
-export const { useSignupMutation, useLoginMutation } = userApi;
+export const { useSignupMutation, useLoginMutation, useAddToWishlistMutation } =
+  userApi;

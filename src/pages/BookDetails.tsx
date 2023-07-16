@@ -12,10 +12,15 @@ import {
   useGetBookDetailsQuery,
 } from '../redux/features/books/bookApi';
 import { useAppSelector } from '../redux/hooks';
-import { AiOutlineHeart, AiOutlineRead } from 'react-icons/ai';
+import {
+  AiOutlineHeart,
+  AiOutlineRead,
+  AiOutlineCheckCircle,
+} from 'react-icons/ai';
 import DeleteModal from '../components/DeleteModal';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
+import { useAddToWishlistMutation } from '../redux/features/user/userApi';
 
 const BookDetails = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -27,11 +32,12 @@ const BookDetails = () => {
     refetchOnMountOrArgChange: true,
     pollingInterval: 30000, // 30 seconds
   });
-
   const { email } = useAppSelector((state) => state.user);
+
   // NOTE: Mutation
   const [deleteBook] = useDeleteBookMutation();
   const [addReview] = useAddReviewMutation();
+  const [addToWishlist] = useAddToWishlistMutation();
 
   const navigate = useNavigate();
 
@@ -42,6 +48,17 @@ const BookDetails = () => {
   const closeModal = () => {
     setIsOpen(false);
   };
+
+  // console.log(bookData?.data);
+  const {
+    _id,
+    title,
+    author,
+    email: savedEmail,
+    genre,
+    publishYear,
+    reviews,
+  } = bookData?.data || {};
 
   const modalHandler = async (id: string): Promise<void> => {
     // NOTE: Call the mutation function
@@ -74,7 +91,6 @@ const BookDetails = () => {
   };
 
   const handleAddReview = async (review: string): Promise<void> => {
-    console.log(review, 'start');
     if (!review) {
       toast.warn('Please add a review first');
       return;
@@ -105,7 +121,6 @@ const BookDetails = () => {
       }
 
       setReview('');
-      console.log(review, 'end');
       toast.success('Review added successfully');
     } catch (error) {
       toast.error('An error occurred. Please try again.');
@@ -115,16 +130,38 @@ const BookDetails = () => {
     return Promise.resolve();
   };
 
-  // console.log(bookData?.data);
-  const {
-    _id,
-    title,
-    author,
-    email: savedEmail,
-    genre,
-    publishYear,
-    reviews,
-  } = bookData?.data || {};
+  const handleAddToWishlist = async () => {
+    const options = {
+      data: {
+        bookId: _id,
+      },
+    };
+
+    // NOTE: Call the mutation function
+    try {
+      const response = await addToWishlist(options);
+
+      if ('error' in response) {
+        toast.error('An error occurred. Please try again.');
+        // console.error(response.error);
+        return;
+      }
+
+      const res = response.data;
+
+      if (!res.success) {
+        toast.error(res.message as string);
+        return;
+      }
+
+      toast.success('Book added to wishlist successfully');
+    } catch (error) {
+      toast.error('An error occurred. Please try again.');
+      // console.error(error);
+    }
+
+    return Promise.resolve();
+  };
 
   return (
     <div>
@@ -139,19 +176,24 @@ const BookDetails = () => {
 
             <div className="flex gap-4">
               <div className="card-actions mt-2">
-                <Link to={`/book-details/${_id}`}>
-                  <button className="flex items-center gap-3 rounded-full border-0 pr-5 py-2 font-semibold capitalize outline-none transition duration-500 ease-in-out  hover:text-[#DA9323]">
-                    <AiOutlineHeart size={24} /> Add to Wishlist
-                  </button>
-                </Link>
+                <button
+                  onClick={handleAddToWishlist}
+                  className="flex items-center gap-3 rounded-full border-0 pr-5 py-2 font-semibold capitalize outline-none transition duration-500 ease-in-out  hover:text-[#DA9323]"
+                >
+                  <AiOutlineHeart size={24} /> Add to Wishlist
+                </button>
               </div>
               <div className="card-actions mt-2">
-                <Link to={`/book-details/${_id}`}>
-                  <button className="flex items-center gap-3  rounded-full border-0 font-semibold px-5 py-2 capitalize outline-none transition duration-500 ease-in-out  hover:text-[#DA9323]">
-                    <AiOutlineRead size={24} /> Add to Reading List
-                  </button>
-                </Link>
+                <button className="flex items-center gap-3  rounded-full border-0 font-semibold px-5 py-2 capitalize outline-none transition duration-500 ease-in-out  hover:text-[#DA9323]">
+                  <AiOutlineRead size={24} /> Add to Reading List
+                </button>
               </div>
+            </div>
+
+            <div className="card-actions mt-2">
+              <button className="flex items-center gap-3 rounded-full border-0 pr-5 py-2 font-semibold capitalize outline-none transition duration-500 ease-in-out  hover:text-[#DA9323]">
+                <AiOutlineCheckCircle size={24} /> Mark as Finished
+              </button>
             </div>
 
             {email === savedEmail && (
