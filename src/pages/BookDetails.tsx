@@ -18,8 +18,8 @@ import { useState } from 'react';
 import { toast } from 'react-toastify';
 
 const BookDetails = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [review, setReview] = useState('');
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [review, setReview] = useState<string>('');
 
   // NOTE: Redux Query + State
   const { id } = useParams();
@@ -73,9 +73,8 @@ const BookDetails = () => {
     return Promise.resolve();
   };
 
-  const handleAddReview = async (): Promise<void> => {
-    console.log('review', review);
-
+  const handleAddReview = async (review: string): Promise<void> => {
+    console.log(review, 'start');
     if (!review) {
       toast.warn('Please add a review first');
       return;
@@ -105,8 +104,9 @@ const BookDetails = () => {
         return;
       }
 
-      toast.success('Review added successfully');
       setReview('');
+      console.log(review, 'end');
+      toast.success('Review added successfully');
     } catch (error) {
       toast.error('An error occurred. Please try again.');
       // console.error(error);
@@ -191,14 +191,14 @@ const BookDetails = () => {
           <div className="card-body ">
             <textarea
               onChange={(e) => setReview(e.target.value)}
-              defaultValue={review}
+              value={review}
               placeholder="Give your valuable review here..."
               className="textarea textarea-bordered textarea-lg w-full max-w-full h-full"
             ></textarea>
           </div>
           <div className="card-actions mb-6 mx-auto">
             <button
-              onClick={handleAddReview}
+              onClick={() => handleAddReview(review)}
               className="rounded-full border-0 bg-[#DA9323]  px-5 py-2 capitalize text-white outline-none transition duration-500 ease-in-out hover:border hover:border-[#DA9323] hover:bg-transparent hover:text-[#DA9323]"
             >
               Submit Review
