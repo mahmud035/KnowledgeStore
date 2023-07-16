@@ -35,7 +35,7 @@ const Books = () => {
         </h4>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 py-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3  gap-8 py-5">
         {data?.data?.map((book: IBook, _id: string) => (
           <BookCard key={_id} book={book} />
         ))}
