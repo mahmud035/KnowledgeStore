@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import BookCard from '../components/BookCard';
 import { useGetFinishedBookListQuery } from '../redux/features/user/userApi';
 import { IBook } from '../types/globalTypes';
+import Spinner from '../components/Spinner';
 
 const FinishedReadingBooks = () => {
   const { data, isLoading } = useGetFinishedBookListQuery(undefined, {
@@ -14,8 +15,9 @@ const FinishedReadingBooks = () => {
   // console.log(data);
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return <Spinner />;
   }
+
   return (
     <>
       <div className="mx-auto mb-6 w-2/3 text-center lg:w-1/3">

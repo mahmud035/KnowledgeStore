@@ -8,6 +8,7 @@ import { useLoginMutation } from '../redux/features/user/userApi';
 import { useAppDispatch } from '../redux/hooks';
 import { setAccessToken, setUserEmail } from '../redux/features/user/userSlice';
 import { toast } from 'react-toastify';
+import SmallSpinner from './SmallSpinner';
 
 interface LoginFormInputs {
   email: string;
@@ -196,7 +197,7 @@ const LoginForm = () => {
                       type="submit"
                       className="inline-flex items-center justify-center gap-2 rounded-md border border-transparent bg-[#e1a84e] px-4 py-3 text-sm font-semibold text-white transition-all hover:bg-[#da9323] focus:outline-none focus:ring-2 focus:ring-[#e1a84e] focus:ring-offset-2"
                     >
-                      {isLoading ? 'Loading' : 'Login'}
+                      {isLoading ? <SmallSpinner /> : 'Login'}
                     </button>
                   </div>
                 </form>

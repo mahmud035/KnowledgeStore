@@ -7,6 +7,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { usePostBookMutation } from '../redux/features/books/bookApi';
 import { useAppSelector } from '../redux/hooks';
+import SmallSpinner from './SmallSpinner';
 
 export interface IAddBook {
   title: string;
@@ -49,7 +50,7 @@ const AddNewBookForm = () => {
       reviews: [],
     };
 
-    console.log(options);
+    // console.log(options);
 
     // NOTE: Call the mutation function
     try {
@@ -266,7 +267,7 @@ const AddNewBookForm = () => {
                         type="submit"
                         className="inline-flex items-center justify-center gap-2 rounded-md border border-transparent bg-[#e1a84e] px-4 py-3 text-sm font-semibold text-white transition-all hover:bg-[#da9323] focus:outline-none focus:ring-2 focus:ring-[#e1a84e] focus:ring-offset-2"
                       >
-                        {isLoading ? 'Loading' : 'Add Book'}
+                        {isLoading ? <SmallSpinner /> : 'Add Book'}
                       </button>
                     </div>
                   </form>

@@ -5,16 +5,17 @@ import { Link } from 'react-router-dom';
 import { useGetReadingListQuery } from '../redux/features/user/userApi';
 import { IBook } from '../types/globalTypes';
 import BookCard from '../components/BookCard';
+import Spinner from '../components/Spinner';
 
 const ReadingList = () => {
   const { data, isLoading } = useGetReadingListQuery(undefined, {
     refetchOnMountOrArgChange: true,
     // pollingInterval: 30000, // 30 seconds
   });
-  console.log(data);
+  // console.log(data);
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return <Spinner />;
   }
 
   return (

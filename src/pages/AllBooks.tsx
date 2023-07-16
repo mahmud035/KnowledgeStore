@@ -6,6 +6,7 @@
 import BookCard from '../components/BookCard';
 import Dropdown from '../components/Dropdown';
 import SearchField from '../components/SearchField';
+import Spinner from '../components/Spinner';
 import { useGetBooksQuery } from '../redux/features/books/bookApi';
 import { getBooks } from '../redux/features/books/bookSlice';
 import { useAppDispatch } from '../redux/hooks';
@@ -16,7 +17,7 @@ const AllBooks = () => {
   const [searchedBooks, setSearchedBooks] = useState<IBook[]>([]);
   const [filteredBooks, setFilteredBooks] = useState<IBook[]>([]);
 
-  const { data: allBooks } = useGetBooksQuery(30, {
+  const { data: allBooks, isLoading } = useGetBooksQuery(30, {
     refetchOnMountOrArgChange: true,
     // pollingInterval: 30000,
   });
@@ -29,6 +30,10 @@ const AllBooks = () => {
       dispatch(getBooks(allBooks?.data as IBook[]));
     }
   }, [allBooks, dispatch]);
+
+  if (isLoading) {
+    return <Spinner />;
+  }
 
   const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
     console.log(e);

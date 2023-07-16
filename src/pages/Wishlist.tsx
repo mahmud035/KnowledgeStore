@@ -3,6 +3,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Link } from 'react-router-dom';
 import BookCard from '../components/BookCard';
+import Spinner from '../components/Spinner';
 import { useGetWishlistQuery } from '../redux/features/user/userApi';
 import { IBook } from '../types/globalTypes';
 
@@ -11,10 +12,10 @@ const Wishlist = () => {
     refetchOnMountOrArgChange: true,
     // pollingInterval: 30000, // 30 seconds
   });
-  console.log(data);
+  // console.log(data);
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return <Spinner />;
   }
 
   return (

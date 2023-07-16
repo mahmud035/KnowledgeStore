@@ -1,16 +1,17 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useGetTenBooksQuery } from '../redux/features/books/bookApi';
 import { getTenBooks } from '../redux/features/books/bookSlice';
 import { useAppDispatch } from '../redux/hooks';
 import { IBook } from '../types/globalTypes';
 import BookCard from './BookCard';
-import { useEffect } from 'react';
+import Spinner from './Spinner';
 
 const Books = () => {
-  const { data } = useGetTenBooksQuery(undefined);
+  const { data, isLoading } = useGetTenBooksQuery(undefined);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -18,6 +19,10 @@ const Books = () => {
       dispatch(getTenBooks(data?.data as IBook[]));
     }
   }, [data, dispatch]);
+
+  if (isLoading) {
+    return <Spinner />;
+  }
 
   // console.log(data);
 

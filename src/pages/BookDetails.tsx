@@ -137,6 +137,11 @@ const BookDetails = () => {
   };
 
   const handleAddToWishlist = async (): Promise<void> => {
+    if (!email) {
+      toast.warn('Please login to add book to wishlist');
+      return;
+    }
+
     const options = {
       bookId: _id,
     };
@@ -168,6 +173,11 @@ const BookDetails = () => {
   };
 
   const handleAddToReadingList = async () => {
+    if (!email) {
+      toast.warn('Please login to add book to reading list');
+      return;
+    }
+
     const options = {
       bookId: _id,
     };
@@ -199,6 +209,11 @@ const BookDetails = () => {
   };
 
   const handleMarkAsFinished = async (): Promise<void> => {
+    if (!email) {
+      toast.warn('Please login to mark book as finished');
+      return;
+    }
+
     const options = {
       bookId: _id,
     };
