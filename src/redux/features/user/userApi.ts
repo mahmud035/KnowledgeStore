@@ -3,6 +3,21 @@ import { api } from '../../api/apiSlice';
 
 export const userApi = api.injectEndpoints({
   endpoints: (builder) => ({
+    getWishlist: builder.query({
+      query: () => '/api/v1/users/wishlist',
+      providesTags: ['books', 'wishlist'],
+    }),
+
+    getReadingList: builder.query({
+      query: () => '/api/v1/users/reading-list',
+      providesTags: ['books', 'readingList'],
+    }),
+
+    getFinishedBookList: builder.query({
+      query: () => '/api/v1/users/finish-list',
+      providesTags: ['books', 'finishedReading'],
+    }),
+
     signup: builder.mutation({
       query: ({ email, password }: { email: string; password: string }) => ({
         url: '/api/v1/auth/signup',
@@ -58,6 +73,9 @@ export const userApi = api.injectEndpoints({
 });
 
 export const {
+  useGetWishlistQuery,
+  useGetReadingListQuery,
+  useGetFinishedBookListQuery,
   useSignupMutation,
   useLoginMutation,
   useAddToWishlistMutation,
