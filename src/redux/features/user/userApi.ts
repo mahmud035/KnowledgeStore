@@ -4,17 +4,32 @@ import { api } from '../../api/apiSlice';
 export const userApi = api.injectEndpoints({
   endpoints: (builder) => ({
     getWishlist: builder.query({
-      query: () => '/api/v1/users/wishlist',
+      query: () => ({
+        url: '/api/v1/users/wishlist',
+        headers: {
+          Authorization: localStorage.getItem('accessToken') as string,
+        },
+      }),
       providesTags: ['books', 'wishlist'],
     }),
 
     getReadingList: builder.query({
-      query: () => '/api/v1/users/reading-list',
+      query: () => ({
+        url: '/api/v1/users/reading-list',
+        headers: {
+          Authorization: localStorage.getItem('accessToken') as string,
+        },
+      }),
       providesTags: ['books', 'readingList'],
     }),
 
     getFinishedBookList: builder.query({
-      query: () => '/api/v1/users/finish-list',
+      query: () => ({
+        url: '/api/v1/users/finish-list',
+        headers: {
+          Authorization: localStorage.getItem('accessToken') as string,
+        },
+      }),
       providesTags: ['books', 'finishedReading'],
     }),
 

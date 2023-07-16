@@ -241,6 +241,42 @@ const Navbar = () => {
                             </NavLink>
                           </li>
                           <li>
+                            <NavLink
+                              to="/wishlist"
+                              className={({ isActive }) =>
+                                isActive
+                                  ? 'hover:text-deep-purple-accent-400 font-medium tracking-wide text-[#DA9323] transition-colors duration-200'
+                                  : 'hover:text-deep-purple-accent-400 font-medium tracking-wide text-gray-700 transition-colors duration-200'
+                              }
+                            >
+                              Wishlist
+                            </NavLink>
+                          </li>
+                          <li>
+                            <NavLink
+                              to="/reading-list"
+                              className={({ isActive }) =>
+                                isActive
+                                  ? 'hover:text-deep-purple-accent-400 font-medium tracking-wide text-[#DA9323] transition-colors duration-200'
+                                  : 'hover:text-deep-purple-accent-400 font-medium tracking-wide text-gray-700 transition-colors duration-200'
+                              }
+                            >
+                              Reading List
+                            </NavLink>
+                          </li>
+                          <li>
+                            <NavLink
+                              to="/finish-list"
+                              className={({ isActive }) =>
+                                isActive
+                                  ? 'hover:text-deep-purple-accent-400 font-medium tracking-wide text-[#DA9323] transition-colors duration-200'
+                                  : 'hover:text-deep-purple-accent-400 font-medium tracking-wide text-gray-700 transition-colors duration-200'
+                              }
+                            >
+                              Finished Books
+                            </NavLink>
+                          </li>
+                          <li>
                             <button
                               onClick={handleLogout}
                               className="btn w-32  border-0 bg-[#ED7A00]/[0.8] capitalize text-white outline-none"
