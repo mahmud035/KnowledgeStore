@@ -68,6 +68,42 @@ const Navbar = () => {
                     Add New Book
                   </NavLink>
                 </li>
+                <li>
+                  <NavLink
+                    to="/wishlist"
+                    className={({ isActive }) =>
+                      isActive
+                        ? 'hover:text-deep-purple-accent-400 font-medium tracking-wide text-[#DA9323] transition-colors duration-200'
+                        : 'hover:text-deep-purple-accent-400 font-medium tracking-wide text-gray-700 transition-colors duration-200'
+                    }
+                  >
+                    Wishlist
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/reading-list"
+                    className={({ isActive }) =>
+                      isActive
+                        ? 'hover:text-deep-purple-accent-400 font-medium tracking-wide text-[#DA9323] transition-colors duration-200'
+                        : 'hover:text-deep-purple-accent-400 font-medium tracking-wide text-gray-700 transition-colors duration-200'
+                    }
+                  >
+                    Reading List
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/finish-list"
+                    className={({ isActive }) =>
+                      isActive
+                        ? 'hover:text-deep-purple-accent-400 font-medium tracking-wide text-[#DA9323] transition-colors duration-200'
+                        : 'hover:text-deep-purple-accent-400 font-medium tracking-wide text-gray-700 transition-colors duration-200'
+                    }
+                  >
+                    Finished Books
+                  </NavLink>
+                </li>
 
                 {/* toggle */}
                 <li>

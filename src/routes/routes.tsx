@@ -8,6 +8,9 @@ import Login from '../pages/Login';
 import SignUp from '../pages/SignUp';
 import BookDetails from '../pages/BookDetails';
 import EditBook from '../pages/EditBook';
+import Wishlist from '../pages/Wishlist';
+import ReadingList from '../pages/ReadingList';
+import FinishedReadingBooks from '../pages/FinishedReadingBooks';
 
 const router = createBrowserRouter([
   {
@@ -34,6 +37,18 @@ const router = createBrowserRouter([
       {
         path: '/edit-book/:id',
         element: <EditBook />,
+      },
+      {
+        path: '/wishlist',
+        element: <Wishlist />,
+      },
+      {
+        path: '/reading-list',
+        element: <ReadingList />,
+      },
+      {
+        path: '/finish-list',
+        element: <FinishedReadingBooks />,
       },
     ],
   },
