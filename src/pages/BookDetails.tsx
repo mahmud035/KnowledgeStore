@@ -23,6 +23,7 @@ import { toast } from 'react-toastify';
 import {
   useAddToReadingListMutation,
   useAddToWishlistMutation,
+  useMarkAsFinishedMutation,
 } from '../redux/features/user/userApi';
 
 const BookDetails = () => {
@@ -42,6 +43,7 @@ const BookDetails = () => {
   const [addReview] = useAddReviewMutation();
   const [addToWishlist] = useAddToWishlistMutation();
   const [addToReadingList] = useAddToReadingListMutation();
+  const [markAsFinished] = useMarkAsFinishedMutation();
 
   const navigate = useNavigate();
 
@@ -200,6 +202,39 @@ const BookDetails = () => {
     return Promise.resolve();
   };
 
+  const handleMarkAsFinished = async (): Promise<void> => {
+    const options = {
+      data: {
+        bookId: _id,
+      },
+    };
+
+    // NOTE: Call the mutation function
+    try {
+      const response = await markAsFinished(options);
+
+      if ('error' in response) {
+        toast.error('An error occurred. Please try again.');
+        // console.error(response.error);
+        return;
+      }
+
+      const res = response.data;
+
+      if (!res.success) {
+        toast.error(res.message as string);
+        return;
+      }
+
+      toast.success('Book marked as finished successfully');
+    } catch (error) {
+      toast.error('An error occurred. Please try again.');
+      // console.error(error);
+    }
+
+    return Promise.resolve();
+  };
+
   return (
     <div>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -231,7 +266,10 @@ const BookDetails = () => {
             </div>
 
             <div className="card-actions mt-2">
-              <button className="flex items-center gap-3 rounded-full border-0 pr-5 py-2 font-semibold capitalize outline-none transition duration-500 ease-in-out  hover:text-[#DA9323]">
+              <button
+                onClick={handleMarkAsFinished}
+                className="flex items-center gap-3 rounded-full border-0 pr-5 py-2 font-semibold capitalize outline-none transition duration-500 ease-in-out  hover:text-[#DA9323]"
+              >
                 <AiOutlineCheckCircle size={24} /> Mark as Finished
               </button>
             </div>

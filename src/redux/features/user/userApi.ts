@@ -42,6 +42,18 @@ export const userApi = api.injectEndpoints({
       }),
       invalidatesTags: ['books', 'readingList'],
     }),
+
+    markAsFinished: builder.mutation({
+      query: (data) => ({
+        url: `/api/v1/users/reading-list/finish`,
+        method: 'POST',
+        body: data,
+        headers: {
+          Authorization: localStorage.getItem('accessToken') as string,
+        },
+      }),
+      invalidatesTags: ['books', 'finishedReading'],
+    }),
   }),
 });
 
@@ -50,4 +62,5 @@ export const {
   useLoginMutation,
   useAddToWishlistMutation,
   useAddToReadingListMutation,
+  useMarkAsFinishedMutation,
 } = userApi;
