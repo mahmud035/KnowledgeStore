@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/restrict-plus-operands */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
@@ -6,6 +7,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import {
+  useAddReviewMutation,
   useDeleteBookMutation,
   useGetBookDetailsQuery,
 } from '../redux/features/books/bookApi';
@@ -17,16 +19,19 @@ import { toast } from 'react-toastify';
 
 const BookDetails = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [review, setReview] = useState('');
 
   // NOTE: Redux Query + State
   const { id } = useParams();
   const { data: bookData } = useGetBookDetailsQuery(id, {
     refetchOnMountOrArgChange: true,
-    pollingInterval: 30000,
+    pollingInterval: 30000, // 30 seconds
   });
+
   const { email } = useAppSelector((state) => state.user);
   // NOTE: Mutation
   const [deleteBook] = useDeleteBookMutation();
+  const [addReview] = useAddReviewMutation();
 
   const navigate = useNavigate();
 
@@ -64,6 +69,48 @@ const BookDetails = () => {
     }
     console.log(id);
     setIsOpen(false);
+
+    return Promise.resolve();
+  };
+
+  const handleAddReview = async (): Promise<void> => {
+    console.log('review', review);
+
+    if (!review) {
+      toast.warn('Please add a review first');
+      return;
+    }
+
+    const options = {
+      id: _id,
+      data: {
+        review: review,
+      },
+    };
+
+    // NOTE: Call the mutation function
+    try {
+      const response = await addReview(options);
+
+      if ('error' in response) {
+        toast.error('An error occurred. Please try again.');
+        // console.error(response.error);
+        return;
+      }
+
+      const res = response.data;
+
+      if (!res.success) {
+        toast.error(res.message as string);
+        return;
+      }
+
+      toast.success('Review added successfully');
+      setReview('');
+    } catch (error) {
+      toast.error('An error occurred. Please try again.');
+      // console.error(error);
+    }
 
     return Promise.resolve();
   };
@@ -143,16 +190,19 @@ const BookDetails = () => {
         <div className="lg:col-span-2 w-full lg:w-1/2 mx-auto card bg-base-100 shadow-lg">
           <div className="card-body ">
             <textarea
+              onChange={(e) => setReview(e.target.value)}
+              defaultValue={review}
               placeholder="Give your valuable review here..."
               className="textarea textarea-bordered textarea-lg w-full max-w-full h-full"
             ></textarea>
           </div>
           <div className="card-actions mb-6 mx-auto">
-            <Link to={`/book-details/${_id}`}>
-              <button className="rounded-full border-0 bg-[#DA9323]  px-5 py-2 capitalize text-white outline-none transition duration-500 ease-in-out hover:border hover:border-[#DA9323] hover:bg-transparent hover:text-[#DA9323]">
-                Submit Review
-              </button>
-            </Link>
+            <button
+              onClick={handleAddReview}
+              className="rounded-full border-0 bg-[#DA9323]  px-5 py-2 capitalize text-white outline-none transition duration-500 ease-in-out hover:border hover:border-[#DA9323] hover:bg-transparent hover:text-[#DA9323]"
+            >
+              Submit Review
+            </button>
           </div>
         </div>
       </div>

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 import { IAddBook } from '../../../components/AddNewBookForm';
 import { IEditBook } from '../../../components/EditBookForm';
@@ -17,7 +18,7 @@ export const bookApi = api.injectEndpoints({
 
     getBookDetails: builder.query({
       query: (id) => `/api/v1/books/${id}`,
-      providesTags: ['books'],
+      providesTags: ['books', 'reviews'],
     }),
 
     postBook: builder.mutation({
@@ -53,6 +54,18 @@ export const bookApi = api.injectEndpoints({
         },
       }),
     }),
+
+    addReview: builder.mutation({
+      query: ({ id, data }) => ({
+        url: `/api/v1/books/add-review/${id}`,
+        method: 'PATCH',
+        body: data,
+        headers: {
+          Authorization: localStorage.getItem('accessToken') as string,
+        },
+      }),
+      invalidatesTags: ['books', 'reviews'],
+    }),
   }),
 });
 
@@ -63,4 +76,5 @@ export const {
   useGetBookDetailsQuery,
   useUpdateBookMutation,
   useDeleteBookMutation,
+  useAddReviewMutation,
 } = bookApi;
