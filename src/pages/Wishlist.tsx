@@ -9,7 +9,7 @@ import { IBook } from '../types/globalTypes';
 const Wishlist = () => {
   const { data, isLoading } = useGetWishlistQuery(undefined, {
     refetchOnMountOrArgChange: true,
-    pollingInterval: 30000, // 30 seconds
+    // pollingInterval: 30000, // 30 seconds
   });
   console.log(data);
 
