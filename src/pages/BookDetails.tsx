@@ -187,25 +187,33 @@ const BookDetails = () => {
           </div>
         </div>
         {/* child-3 */}
-        <div className="lg:col-span-2 w-full lg:w-1/2 mx-auto card bg-base-100 shadow-lg">
-          <div className="card-body ">
-            <textarea
-              onChange={(e) => setReview(e.target.value)}
-              value={review}
-              placeholder="Give your valuable review here..."
-              className="textarea textarea-bordered textarea-lg w-full max-w-full h-full"
-            ></textarea>
+        {email && (
+          <div className="lg:col-span-2 w-full lg:w-1/2 mx-auto card bg-base-100 shadow-lg">
+            <div className="card-body ">
+              <textarea
+                onChange={(e) => setReview(e.target.value)}
+                value={review}
+                placeholder="Give your valuable review here..."
+                className="textarea textarea-bordered textarea-lg w-full max-w-full h-full"
+              ></textarea>
+            </div>
+            <div className="card-actions mb-6 mx-auto">
+              <button
+                onClick={() => handleAddReview(review)}
+                className="rounded-full border-0 bg-[#DA9323]  px-5 py-2 capitalize text-white outline-none transition duration-500 ease-in-out hover:border hover:border-[#DA9323] hover:bg-transparent hover:text-[#DA9323]"
+              >
+                Submit Review
+              </button>
+            </div>
           </div>
-          <div className="card-actions mb-6 mx-auto">
-            <button
-              onClick={() => handleAddReview(review)}
-              className="rounded-full border-0 bg-[#DA9323]  px-5 py-2 capitalize text-white outline-none transition duration-500 ease-in-out hover:border hover:border-[#DA9323] hover:bg-transparent hover:text-[#DA9323]"
-            >
-              Submit Review
-            </button>
-          </div>
-        </div>
+        )}
       </div>
+
+      {!email && (
+        <div className="text-center my-8 underline text-blue-500 text-lg font-medium">
+          <Link to="/login">Please Login to add review.</Link>
+        </div>
+      )}
 
       <DeleteModal
         isOpen={isOpen}
