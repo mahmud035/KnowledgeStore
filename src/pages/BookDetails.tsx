@@ -20,7 +20,10 @@ import {
 import DeleteModal from '../components/DeleteModal';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
-import { useAddToWishlistMutation } from '../redux/features/user/userApi';
+import {
+  useAddToReadingListMutation,
+  useAddToWishlistMutation,
+} from '../redux/features/user/userApi';
 
 const BookDetails = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -38,6 +41,7 @@ const BookDetails = () => {
   const [deleteBook] = useDeleteBookMutation();
   const [addReview] = useAddReviewMutation();
   const [addToWishlist] = useAddToWishlistMutation();
+  const [addToReadingList] = useAddToReadingListMutation();
 
   const navigate = useNavigate();
 
@@ -130,7 +134,7 @@ const BookDetails = () => {
     return Promise.resolve();
   };
 
-  const handleAddToWishlist = async () => {
+  const handleAddToWishlist = async (): Promise<void> => {
     const options = {
       data: {
         bookId: _id,
@@ -163,6 +167,39 @@ const BookDetails = () => {
     return Promise.resolve();
   };
 
+  const handleAddToReadingList = async () => {
+    const options = {
+      data: {
+        bookId: _id,
+      },
+    };
+
+    // NOTE: Call the mutation function
+    try {
+      const response = await addToReadingList(options);
+
+      if ('error' in response) {
+        toast.error('An error occurred. Please try again.');
+        // console.error(response.error);
+        return;
+      }
+
+      const res = response.data;
+
+      if (!res.success) {
+        toast.error(res.message as string);
+        return;
+      }
+
+      toast.success('Book added to reading list successfully');
+    } catch (error) {
+      toast.error('An error occurred. Please try again.');
+      // console.error(error);
+    }
+
+    return Promise.resolve();
+  };
+
   return (
     <div>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -184,7 +221,10 @@ const BookDetails = () => {
                 </button>
               </div>
               <div className="card-actions mt-2">
-                <button className="flex items-center gap-3  rounded-full border-0 font-semibold px-5 py-2 capitalize outline-none transition duration-500 ease-in-out  hover:text-[#DA9323]">
+                <button
+                  onClick={handleAddToReadingList}
+                  className="flex items-center gap-3  rounded-full border-0 font-semibold px-5 py-2 capitalize outline-none transition duration-500 ease-in-out  hover:text-[#DA9323]"
+                >
                   <AiOutlineRead size={24} /> Add to Reading List
                 </button>
               </div>
