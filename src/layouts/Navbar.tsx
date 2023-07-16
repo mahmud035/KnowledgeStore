@@ -5,6 +5,7 @@ import {
   clearAccessToken,
   clearUserEmail,
 } from '../redux/features/user/userSlice';
+import logo from '../assets/logo.svg';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -26,7 +27,8 @@ const Navbar = () => {
       <div className="mx-auto py-4 sm:max-w-xl md:max-w-full lg:max-w-screen-xl">
         <div className="relative flex items-center justify-between">
           <Link to="/">
-            <h1 className="text-xl font-black">KnowledgeStore</h1>
+            <img src={logo} className="h-14 w-full" alt="" />
+            {/* <h1 className="text-xl font-black">KnowledgeStore</h1> */}
           </Link>
           <ul className="hidden items-center space-x-8 lg:flex">
             <li>

@@ -42,7 +42,7 @@ export const bookApi = api.injectEndpoints({
           Authorization: localStorage.getItem('accessToken') as string,
         },
       }),
-      // invalidatesTags: ['books'],
+      invalidatesTags: ['books', 'reviews'],
     }),
 
     deleteBook: builder.mutation({

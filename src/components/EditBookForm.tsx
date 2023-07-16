@@ -17,7 +17,6 @@ export interface IEditBook {
   email: string;
   genre: string;
   publishYear: string;
-  reviews?: string[];
 }
 
 const EditBookForm = () => {
@@ -45,7 +44,6 @@ const EditBookForm = () => {
       email: savedEmail,
       genre,
       publishYear,
-      reviews: [],
     },
   });
 
@@ -58,7 +56,6 @@ const EditBookForm = () => {
         email: savedEmail,
         genre: data.genre,
         publishYear: data.publishYear,
-        reviews: [],
       },
     };
 

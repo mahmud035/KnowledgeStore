@@ -1,4 +1,4 @@
-// import logo from '../assets/images/logo.svg';
+import logo from '../assets/logo.svg';
 
 const Footer = () => {
   return (
@@ -12,8 +12,7 @@ const Footer = () => {
               title="Company"
               className="inline-flex items-center"
             >
-              {/* <img src={logo} className="h-12 w-full" alt="" /> */}
-              KnowledgeShare
+              <img src={logo} className="h-14 w-full" alt="" />
             </a>
             <div className="mt-6 lg:max-w-sm">
               <p className="text-sm text-gray-800">

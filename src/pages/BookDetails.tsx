@@ -240,7 +240,7 @@ const BookDetails = () => {
             <p>Genre: {genre}</p>
             <p>PublishYear: {publishYear}</p>
 
-            <div className="flex gap-4">
+            <div className="flex flex-wrap gap-4">
               <div className="card-actions mt-2">
                 <button
                   onClick={handleAddToWishlist}
@@ -252,7 +252,7 @@ const BookDetails = () => {
               <div className="card-actions mt-2">
                 <button
                   onClick={handleAddToReadingList}
-                  className="flex items-center gap-3  rounded-full border-0 font-semibold px-5 py-2 capitalize outline-none transition duration-500 ease-in-out  hover:text-[#DA9323]"
+                  className="flex items-center gap-3  rounded-full border-0 font-semibold pr-5 py-2 capitalize outline-none transition duration-500 ease-in-out  hover:text-[#DA9323]"
                 >
                   <AiOutlineRead size={24} /> Add to Reading List
                 </button>
