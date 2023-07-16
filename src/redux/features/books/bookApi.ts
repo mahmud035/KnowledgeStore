@@ -43,6 +43,16 @@ export const bookApi = api.injectEndpoints({
       }),
       // invalidatesTags: ['books'],
     }),
+
+    deleteBook: builder.mutation({
+      query: (id) => ({
+        url: `/api/v1/books/${id}`,
+        method: 'DELETE',
+        headers: {
+          Authorization: localStorage.getItem('accessToken') as string,
+        },
+      }),
+    }),
   }),
 });
 
@@ -52,4 +62,5 @@ export const {
   usePostBookMutation,
   useGetBookDetailsQuery,
   useUpdateBookMutation,
+  useDeleteBookMutation,
 } = bookApi;

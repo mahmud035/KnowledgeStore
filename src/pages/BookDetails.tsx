@@ -4,15 +4,31 @@
 /* eslint-disable no-unsafe-optional-chaining */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import { Link, useParams } from 'react-router-dom';
-import { useGetBookDetailsQuery } from '../redux/features/books/bookApi';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import {
+  useDeleteBookMutation,
+  useGetBookDetailsQuery,
+} from '../redux/features/books/bookApi';
 import { useAppSelector } from '../redux/hooks';
 import { AiOutlineHeart, AiOutlineRead } from 'react-icons/ai';
 import DeleteModal from '../components/DeleteModal';
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 
 const BookDetails = () => {
   const [isOpen, setIsOpen] = useState(false);
+
+  // NOTE: Redux Query + State
+  const { id } = useParams();
+  const { data: bookData } = useGetBookDetailsQuery(id, {
+    refetchOnMountOrArgChange: true,
+    pollingInterval: 30000,
+  });
+  const { email } = useAppSelector((state) => state.user);
+  // NOTE: Mutation
+  const [deleteBook] = useDeleteBookMutation();
+
+  const navigate = useNavigate();
 
   const openModal = () => {
     setIsOpen(true);
@@ -22,17 +38,35 @@ const BookDetails = () => {
     setIsOpen(false);
   };
 
-  const modalHandler = (id: string) => {
+  const modalHandler = async (id: string): Promise<void> => {
+    // NOTE: Call the mutation function
+    try {
+      const response = await deleteBook(id);
+
+      if ('error' in response) {
+        toast.error('An error occurred. Please try again.');
+        // console.error(response.error);
+        return;
+      }
+
+      const res = response.data;
+
+      if (!res.success) {
+        toast.error(res.message as string);
+        return;
+      }
+
+      toast.success('Book deleted successfully');
+      navigate('/all-books');
+    } catch (error) {
+      toast.error('An error occurred. Please try again.');
+      // console.error(error);
+    }
     console.log(id);
     setIsOpen(false);
-  };
 
-  const { id } = useParams();
-  const { data: bookData } = useGetBookDetailsQuery(id, {
-    refetchOnMountOrArgChange: true,
-    pollingInterval: 30000,
-  });
-  const { email } = useAppSelector((state) => state.user);
+    return Promise.resolve();
+  };
 
   // console.log(bookData?.data);
   const {
