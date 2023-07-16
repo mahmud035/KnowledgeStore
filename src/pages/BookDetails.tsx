@@ -138,9 +138,7 @@ const BookDetails = () => {
 
   const handleAddToWishlist = async (): Promise<void> => {
     const options = {
-      data: {
-        bookId: _id,
-      },
+      bookId: _id,
     };
 
     // NOTE: Call the mutation function
@@ -171,9 +169,7 @@ const BookDetails = () => {
 
   const handleAddToReadingList = async () => {
     const options = {
-      data: {
-        bookId: _id,
-      },
+      bookId: _id,
     };
 
     // NOTE: Call the mutation function
@@ -204,9 +200,7 @@ const BookDetails = () => {
 
   const handleMarkAsFinished = async (): Promise<void> => {
     const options = {
-      data: {
-        bookId: _id,
-      },
+      bookId: _id,
     };
 
     // NOTE: Call the mutation function
