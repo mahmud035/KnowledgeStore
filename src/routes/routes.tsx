@@ -1,16 +1,16 @@
 import { createBrowserRouter } from 'react-router-dom';
 import MainLayout from '../layouts/MainLayout';
-import Home from '../pages/Home';
-import ErrorPage from '../pages/ErrorPage';
-import AllBooks from '../pages/AllBooks';
 import AddNewBook from '../pages/AddNewBook';
-import Login from '../pages/Login';
-import SignUp from '../pages/SignUp';
+import AllBooks from '../pages/AllBooks';
 import BookDetails from '../pages/BookDetails';
 import EditBook from '../pages/EditBook';
-import Wishlist from '../pages/Wishlist';
-import ReadingList from '../pages/ReadingList';
+import ErrorPage from '../pages/ErrorPage';
 import FinishedReadingBooks from '../pages/FinishedReadingBooks';
+import Home from '../pages/Home';
+import Login from '../pages/Login';
+import ReadingList from '../pages/ReadingList';
+import SignUp from '../pages/SignUp';
+import Wishlist from '../pages/Wishlist';
 
 const router = createBrowserRouter([
   {
@@ -60,11 +60,6 @@ const router = createBrowserRouter([
     path: '/signup',
     element: <SignUp />,
   },
-
-  // {
-  //   path: '*',
-  //   element: <NotFound />,
-  // },
 ]);
 
 export default router;

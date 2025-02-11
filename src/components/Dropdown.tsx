@@ -21,10 +21,10 @@ const Dropdown = ({
   ];
 
   return (
-    <div className=" flex justify-center items-center ">
+    <div className="flex items-center justify-center ">
       Filter By:
       <div className="dropdown dropdown-hover">
-        <label tabIndex={0} className="btn m-1 capitalize">
+        <label tabIndex={0} className="m-1 capitalize btn">
           Genre
         </label>
         <ul
@@ -42,7 +42,7 @@ const Dropdown = ({
         </ul>
       </div>
       <div className="dropdown dropdown-hover">
-        <label tabIndex={0} className="btn m-1 capitalize">
+        <label tabIndex={0} className="m-1 capitalize btn">
           PublishYear
         </label>
         <ul

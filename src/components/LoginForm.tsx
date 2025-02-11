@@ -4,10 +4,10 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { useForm } from 'react-hook-form';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useLoginMutation } from '../redux/features/user/userApi';
-import { useAppDispatch } from '../redux/hooks';
-import { setAccessToken, setUserEmail } from '../redux/features/user/userSlice';
 import { toast } from 'react-toastify';
+import { useLoginMutation } from '../redux/features/user/userApi';
+import { setAccessToken, setUserEmail } from '../redux/features/user/userSlice';
+import { useAppDispatch } from '../redux/hooks';
 import SmallSpinner from './SmallSpinner';
 
 interface LoginFormInputs {
@@ -37,7 +37,6 @@ const LoginForm = () => {
   const handleLogin = async (data: LoginFormInputs) => {
     const email = data.email;
     const password = data.password;
-    // console.log(email, password);
 
     const options = {
       email: email,
@@ -69,7 +68,6 @@ const LoginForm = () => {
       navigate(from, { replace: true });
     } catch (error) {
       toast.error('An error occurred. Please try again.');
-      // console.error(error);
     }
   };
   return (
@@ -78,9 +76,9 @@ const LoginForm = () => {
         <main
           data-aos="fade-up"
           data-aos-duration="1000"
-          className="mx-auto w-full max-w-md p-6"
+          className="w-full max-w-md p-6 mx-auto"
         >
-          <div className="mt-7 rounded-xl border border-gray-200 bg-white  shadow-sm ">
+          <div className="bg-white border border-gray-200 shadow-sm mt-7 rounded-xl ">
             <div className="p-4 sm:p-7">
               <div className="text-center">
                 <h1 className="block text-2xl font-bold text-gray-800 ">
@@ -102,7 +100,7 @@ const LoginForm = () => {
                   <div className="grid gap-y-4">
                     {/* form control */}
                     <div>
-                      <label htmlFor="email" className="mb-2 block text-sm ">
+                      <label htmlFor="email" className="block mb-2 text-sm ">
                         Email*
                       </label>
                       <div className="relative">
@@ -120,14 +118,14 @@ const LoginForm = () => {
                           type="email"
                           id="email"
                           name="email"
-                          className="block w-full rounded-md border border-gray-300 px-4 py-3 text-sm "
+                          className="block w-full px-4 py-3 text-sm border border-gray-300 rounded-md "
                           required
                           aria-describedby="email-error"
                           placeholder="example@gmail.com"
                         />
-                        <div className="pointer-events-none absolute inset-y-0 right-0 hidden items-center pr-3">
+                        <div className="absolute inset-y-0 right-0 items-center hidden pr-3 pointer-events-none">
                           <svg
-                            className="h-5 w-5 text-red-500"
+                            className="w-5 h-5 text-red-500"
                             width="16"
                             height="16"
                             fill="currentColor"
@@ -139,7 +137,7 @@ const LoginForm = () => {
                         </div>
                       </div>
                       <p
-                        className="mt-2 hidden text-xs text-red-600"
+                        className="hidden mt-2 text-xs text-red-600"
                         id="email-error"
                       >
                         error
@@ -151,7 +149,7 @@ const LoginForm = () => {
                       <div className="flex items-center justify-between">
                         <label
                           htmlFor="password"
-                          className="mb-2 block text-sm"
+                          className="block mb-2 text-sm"
                         >
                           Password*
                         </label>
@@ -167,14 +165,14 @@ const LoginForm = () => {
                           type="password"
                           id="password"
                           name="password"
-                          className="block w-full rounded-md border border-gray-300 px-4 py-3 text-sm "
+                          className="block w-full px-4 py-3 text-sm border border-gray-300 rounded-md "
                           required
                           aria-describedby="password-error"
                           placeholder="******"
                         />
-                        <div className="pointer-events-none absolute inset-y-0 right-0 hidden items-center pr-3">
+                        <div className="absolute inset-y-0 right-0 items-center hidden pr-3 pointer-events-none">
                           <svg
-                            className="h-5 w-5 text-red-500"
+                            className="w-5 h-5 text-red-500"
                             width="16"
                             height="16"
                             fill="currentColor"
@@ -186,7 +184,7 @@ const LoginForm = () => {
                         </div>
                       </div>
                       <p
-                        className="mt-2 hidden text-xs text-red-600"
+                        className="hidden mt-2 text-xs text-red-600"
                         id="password-error"
                       >
                         error

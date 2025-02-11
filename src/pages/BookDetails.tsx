@@ -5,26 +5,26 @@
 /* eslint-disable no-unsafe-optional-chaining */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
+import { useState } from 'react';
+import {
+  AiOutlineCheckCircle,
+  AiOutlineHeart,
+  AiOutlineRead,
+} from 'react-icons/ai';
 import { Link, useNavigate, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import DeleteModal from '../components/DeleteModal';
 import {
   useAddReviewMutation,
   useDeleteBookMutation,
   useGetBookDetailsQuery,
 } from '../redux/features/books/bookApi';
-import { useAppSelector } from '../redux/hooks';
-import {
-  AiOutlineHeart,
-  AiOutlineRead,
-  AiOutlineCheckCircle,
-} from 'react-icons/ai';
-import DeleteModal from '../components/DeleteModal';
-import { useState } from 'react';
-import { toast } from 'react-toastify';
 import {
   useAddToReadingListMutation,
   useAddToWishlistMutation,
   useMarkAsFinishedMutation,
 } from '../redux/features/user/userApi';
+import { useAppSelector } from '../redux/hooks';
 
 const BookDetails = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -115,7 +115,6 @@ const BookDetails = () => {
 
       if ('error' in response) {
         toast.error('An error occurred. Please try again.');
-        // console.error(response.error);
         return;
       }
 
@@ -130,7 +129,6 @@ const BookDetails = () => {
       toast.success('Review added successfully');
     } catch (error) {
       toast.error('An error occurred. Please try again.');
-      // console.error(error);
     }
 
     return Promise.resolve();
@@ -152,7 +150,6 @@ const BookDetails = () => {
 
       if ('error' in response) {
         toast.error('An error occurred. Please try again.');
-        // console.error(response.error);
         return;
       }
 
@@ -166,7 +163,6 @@ const BookDetails = () => {
       toast.success('Book added to wishlist successfully');
     } catch (error) {
       toast.error('An error occurred. Please try again.');
-      // console.error(error);
     }
 
     return Promise.resolve();
@@ -188,7 +184,6 @@ const BookDetails = () => {
 
       if ('error' in response) {
         toast.error('An error occurred. Please try again.');
-        // console.error(response.error);
         return;
       }
 
@@ -202,7 +197,6 @@ const BookDetails = () => {
       toast.success('Book added to reading list successfully');
     } catch (error) {
       toast.error('An error occurred. Please try again.');
-      // console.error(error);
     }
 
     return Promise.resolve();
@@ -224,7 +218,6 @@ const BookDetails = () => {
 
       if ('error' in response) {
         toast.error('An error occurred. Please try again.');
-        // console.error(response.error);
         return;
       }
 
@@ -238,7 +231,6 @@ const BookDetails = () => {
       toast.success('Book marked as finished successfully');
     } catch (error) {
       toast.error('An error occurred. Please try again.');
-      // console.error(error);
     }
 
     return Promise.resolve();
@@ -246,9 +238,9 @@ const BookDetails = () => {
 
   return (
     <div>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
         {/* child-1 */}
-        <div className="card bg-base-100 shadow-lg">
+        <div className="shadow-lg card bg-base-100">
           <div className="card-body">
             <h2 className="card-title">Title: {title}</h2>
             <p>Author: ${author}</p>
@@ -256,7 +248,7 @@ const BookDetails = () => {
             <p>PublishYear: {publishYear}</p>
 
             <div className="flex flex-wrap gap-4">
-              <div className="card-actions mt-2">
+              <div className="mt-2 card-actions">
                 <button
                   onClick={handleAddToWishlist}
                   className="flex items-center gap-3 rounded-full border-0 pr-5 py-2 font-semibold capitalize outline-none transition duration-500 ease-in-out  hover:text-[#DA9323]"
@@ -264,7 +256,7 @@ const BookDetails = () => {
                   <AiOutlineHeart size={24} /> Add to Wishlist
                 </button>
               </div>
-              <div className="card-actions mt-2">
+              <div className="mt-2 card-actions">
                 <button
                   onClick={handleAddToReadingList}
                   className="flex items-center gap-3  rounded-full border-0 font-semibold pr-5 py-2 capitalize outline-none transition duration-500 ease-in-out  hover:text-[#DA9323]"
@@ -274,7 +266,7 @@ const BookDetails = () => {
               </div>
             </div>
 
-            <div className="card-actions mt-2">
+            <div className="mt-2 card-actions">
               <button
                 onClick={handleMarkAsFinished}
                 className="flex items-center gap-3 rounded-full border-0 pr-5 py-2 font-semibold capitalize outline-none transition duration-500 ease-in-out  hover:text-[#DA9323]"
@@ -285,14 +277,14 @@ const BookDetails = () => {
 
             {email === savedEmail && (
               <div className="flex gap-4">
-                <div className="card-actions mt-2">
+                <div className="mt-2 card-actions">
                   <Link to={`/edit-book/${_id}`}>
                     <button className="rounded-full border-0 bg-[#DA9323]  px-5 py-2 capitalize text-white outline-none transition duration-500 ease-in-out hover:border hover:border-[#DA9323] hover:bg-transparent hover:text-[#DA9323]">
                       Edit Book
                     </button>
                   </Link>
                 </div>
-                <div className="card-actions mt-2">
+                <div className="mt-2 card-actions">
                   <button
                     onClick={openModal}
                     className="rounded-full border-0 bg-[#da2378]  px-5 py-2 capitalize text-white outline-none transition duration-500 ease-in-out hover:border hover:border-[#da23b2] hover:bg-transparent hover:text-[#DA9323]"
@@ -305,7 +297,7 @@ const BookDetails = () => {
           </div>
         </div>
         {/* child-2 */}
-        <div className="card bg-base-100 shadow-lg">
+        <div className="shadow-lg card bg-base-100">
           <div className="card-body">
             <h2 className="card-title">Reviews:</h2>
             {reviews?.map((review: string, index: string) => (
@@ -317,16 +309,16 @@ const BookDetails = () => {
         </div>
         {/* child-3 */}
         {email && (
-          <div className="lg:col-span-2 w-full lg:w-1/2 mx-auto card bg-base-100 shadow-lg">
+          <div className="w-full mx-auto shadow-lg lg:col-span-2 lg:w-1/2 card bg-base-100">
             <div className="card-body ">
               <textarea
                 onChange={(e) => setReview(e.target.value)}
                 value={review}
                 placeholder="Give your valuable review here..."
-                className="textarea textarea-bordered textarea-lg w-full max-w-full h-full"
+                className="w-full h-full max-w-full textarea textarea-bordered textarea-lg"
               ></textarea>
             </div>
-            <div className="card-actions mb-6 mx-auto">
+            <div className="mx-auto mb-6 card-actions">
               <button
                 onClick={() => handleAddReview(review)}
                 className="rounded-full border-0 bg-[#DA9323]  px-5 py-2 capitalize text-white outline-none transition duration-500 ease-in-out hover:border hover:border-[#DA9323] hover:bg-transparent hover:text-[#DA9323]"
@@ -339,7 +331,7 @@ const BookDetails = () => {
       </div>
 
       {!email && (
-        <div className="text-center my-8 underline text-blue-500 text-lg font-medium">
+        <div className="my-8 text-lg font-medium text-center text-blue-500 underline">
           <Link to="/login">Please Login to add review.</Link>
         </div>
       )}
